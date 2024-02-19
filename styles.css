@@ -1,0 +1,73 @@
+body, html {
+    height: 100%;
+    margin: 0; /* Setzt den Seitenrand auf null */
+    font-family: Arial, sans-serif;
+    background-color: #e6f7ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0; /* Setzt das Padding auf null */
+}
+
+#quiz-container {
+    width: 100%; /* Setzt die Breite auf 100% */
+    max-width: 100%; /* Optional: Setzt die maximale Breite auf 100% */
+    padding: 30px; /* Mehr Innenabstand */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    background-color: #ffffff;
+    border-radius: 20px;
+    text-align: center;
+}
+
+h1 {
+    color: #005288;
+}
+
+#answer, #submit {
+    width: calc(100% - 60px); /* Angepasste Breite */
+    padding: 15px 30px; /* Mehr Padding */
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-radius: 30px; /* Runde Ecken */
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+#submit {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+#submit:hover {
+    background-color: #0056b3;
+}
+
+#result {
+    margin-top: 20px;
+    color: #005288;
+}
+
+#counter {
+    margin-top: 20px;
+    margin-bottom: 20px; /* Hinzugefügter Abstand unten */
+}
+
+.counter-box {
+    background-color: #e6f7ff; /* Hintergrundfarbe der Counter-Box */
+    color: #005288;
+    border-radius: 15px; /* Runde Ecken für die Counter-Box */
+    padding: 10px;
+    display: inline-block; /* Mach die Box inline für eine schönere Darstellung */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#world-map {
+    height: 450px; /* Vergrößerte Höhe für die Karte */
+    width: 100%; /* Breite auf 100% für volle Responsive-Fähigkeit */
+    border-radius: 15px; /* Abgerundete Ecken */
+    margin-top: 20px; /* Einheitlicher Abstand zum oberen Element */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Schatten für Tiefe */
+}
