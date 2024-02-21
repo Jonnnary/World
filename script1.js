@@ -17,7 +17,9 @@ function initMap() {
 
 // Funktion zum Laden der GeoJSON-Daten für eine bestimmte Region
 function loadGeoJsonForRegion(region) {
-    const geoJsonPath = `europe.geojson`; // Hier müssen Sie den Pfad zu Ihrer GeoJSON-Datei anpassen
+    // Generiert den Pfad basierend auf der ausgewählten Region
+    const geoJsonPath = `${region}.geojson`; // Annahme: Die Dateien liegen im selben Verzeichnis
+
     fetch(geoJsonPath)
         .then(response => response.json())
         .then(data => {
