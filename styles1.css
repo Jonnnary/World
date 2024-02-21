@@ -6,23 +6,29 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px; /* Fügt Abstand um den Container hinzu */
 }
 
 #quiz-container {
-    width: 90%;
-    max-width: 600px;
-    margin: 20px auto;
+    width: 80vw; /* Setzt die Breite auf 80% des Viewport */
+    max-width: 1200px; /* Maximale Breite, um zu große Ansichten zu vermeiden */
+    height: 80vh; /* Setzt die Höhe auf 80% des Viewport */
+    max-height: 800px; /* Maximale Höhe */
+    margin: auto;
     text-align: center;
     padding: 20px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Ordnet Kinder vertikal an */
+    justify-content: space-between; /* Verteilt den Innenabstand */
 }
 
 #map {
-    height: 400px;
+    flex-grow: 1; /* Ermöglicht es der Karte, verfügbaren Raum auszufüllen */
     width: 100%;
-    margin-bottom: 20px;
+    margin: 20px 0; /* Fügt oben und unten Abstand hinzu */
     border-radius: 8px;
     overflow: hidden;
 }
@@ -33,11 +39,11 @@ body, html {
 
 input[type="text"], button {
     padding: 10px;
-    width: calc(100% - 20px);
     border: none;
     border-radius: 5px;
     margin-bottom: 10px;
     font-size: 16px;
+    width: 100%; /* Passt die Breite an den Elterncontainer an */
 }
 
 input[type="text"] {
@@ -55,15 +61,11 @@ button:hover {
     background-color: #0056b3;
 }
 
-button.correct {
-    background-color: #28a745;
-}
-
-button.wrong {
-    background-color: #dc3545;
+button.correct, button.wrong {
+    transition: background-color 0.5s ease; /* Glättet den Übergang */
 }
 
 #feedback {
     font-weight: bold;
-    height: 20px; /* Hält den Platz für Feedback, um Springen zu vermeiden */
+    height: 20px;
 }
