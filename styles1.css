@@ -1,0 +1,52 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+#quiz-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+}
+
+input[type="text"] {
+    margin-top: 10px;
+    padding: 10px;
+    width: calc(100% - 22px);
+    box-sizing: border-box;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #337ab7;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #286090;
+}
+
+select {
+    padding: 10px;
+    margin-top: 10px;
+}
+
+button.correct {
+    background-color: green;
+}
+
+button.wrong {
+    background-color: red;
+}

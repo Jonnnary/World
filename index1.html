@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Country Guessing Quiz</title>
+    <link rel="stylesheet" href="styles1.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>Guess the Country</h1>
+        <select id="regionSelect">
+            <!-- Passen Sie die Werte an Ihre GeoJSON-Dateinamen an -->
+            <option value="europe">Europe</option>
+            <option value="asia">Asia</option>
+            <option value="africa">Africa</option>
+            <!-- Fügen Sie weitere Optionen entsprechend hinzu -->
+        </select>
+        <div id="map"></div>
+        <input type="text" id="countryInput" placeholder="Enter your answer here...">
+        <button id="checkAnswer">Check</button>
+        <link rel="stylesheet" href="styles1.css">
+    </div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="script1.js"></script>
+</body>
+</html>
