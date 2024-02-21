@@ -9,16 +9,14 @@ let wrongGuessedCountries = new Set(); // Set für falsch erratene Länder
 function initMap() {
     map = L.map('map').setView([51.505, -0.09], 2);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
-        maxZoom: 27,
+        maxZoom: 18,
         attribution: '© OpenStreetMap contributors, © CARTO'
     }).addTo(map);
 }
 
-
-// Funktion zum Laden der GeoJSON-Daten für eine bestimmte Region
 function loadGeoJsonForRegion(region) {
-    // Generiert den Pfad basierend auf der ausgewählten Region
-    const geoJsonPath = `${region}.geojson`; // Annahme: Die Dateien liegen im selben Verzeichnis
+    // Ersetzen Sie 'path/to/geojson/' mit dem tatsächlichen Pfad zu Ihren GeoJSON-Dateien
+    const geoJsonPath = `${region}.geojson`;
 
     fetch(geoJsonPath)
         .then(response => response.json())
@@ -37,6 +35,11 @@ function loadGeoJsonForRegion(region) {
                 }
             }).addTo(map);
             highlightRandomCountry(data);
+            // Aktualisieren Sie die Gesamtzahl der Länder und zurücksetzen des Counters
+            document.getElementById('totalCount').textContent = data.features.length;
+            document.getElementById('guessedCount').textContent = 0;
+            guessedCountries.clear();
+            wrongGuessedCountries.clear();
         })
         .catch(error => console.error('Fehler beim Laden der GeoJSON-Daten:', error));
 }
@@ -78,27 +81,20 @@ function highlightRandomCountry(geojsonData) {
 // Funktion, die überprüft, ob die Benutzereingabe mit dem aktuellen Land übereinstimmt
 function checkUserAnswer(countryName) {
     const userInput = document.getElementById('countryInput').value.toLowerCase().trim();
-    const button = document.getElementById('checkAnswer');
-
-    button.classList.remove('correct', 'wrong');
-
     if (userInput === countryName.toLowerCase()) {
-        guessedCountries.add(countryName); // Füge das korrekt erratene Land hinzu
+        guessedCountries.add(countryName); // Korrektes Land hinzufügen
         highlightedLayer.setStyle({ fillColor: 'green', color: 'green' });
-        button.classList.add('correct');
     } else {
-        wrongGuessedCountries.add(countryName); // Füge das falsch erratene Land hinzu
+        wrongGuessedCountries.add(countryName); // Falsches Land hinzufügen
         highlightedLayer.setStyle({ fillColor: 'red', color: 'red' });
-        button.classList.add('wrong');
     }
 
-    document.getElementById('countryInput').value = '';
-    document.getElementById('countryInput').focus();
+    // Counter für erratene Länder aktualisieren
+    document.getElementById('guessedCount').textContent = guessedCountries.size;
 
-    setTimeout(function() {
-        button.classList.remove('correct', 'wrong');
-        highlightRandomCountry(geoJsonLayer.toGeoJSON());
-    }, 200);
+    // Vorbereiten auf das nächste Land
+    document.getElementById('countryInput').value = ''; // Eingabefeld leeren
+    setTimeout(() => highlightRandomCountry(geoJsonLayer.toGeoJSON()), 1000);
 }
 
 // Event-Listener für die Regionsauswahl

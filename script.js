@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Optional: Deaktiviere die Möglichkeit zu zoomen, falls erforderlich
 
 
-    const countriesData = await fetch('countries.geojson').then(response => response.json());
+    const countriesData = await fetch('all.geojson').then(response => response.json());
     document.getElementById('submit').addEventListener('click', () => checkAnswer(countriesData));
     document.getElementById('answer').addEventListener('keypress', function(event) {
         if (event.key === 'Enter') {

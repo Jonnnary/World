@@ -10,13 +10,20 @@
     <div id="quiz-container">
         <h1>Guess the Country</h1>
         <select id="regionSelect">
-            <!-- Passen Sie die Werte an Ihre GeoJSON-Dateinamen an -->
-            <option value="europe">Europe</option>
+            <option value="all">All</option>
+            <option value="north_america">North America</option>
+            <option value="south_america">South America</option>
             <option value="africa">Africa</option>
-            <option >More following</option>
-            <!-- Fügen Sie weitere Optionen entsprechend hinzu -->
+            <option value="europe">Europe</option>
+            <option value="asia">Asia</option>
+            <option value="oceania">Oceania</option>
+            <option value="other">Other</option>
         </select>
-        <div id="map"></div>
+        
+        <div id="stats">
+            Erratene Länder: <span id="guessedCount">0</span> / <span id="totalCount">0</span>
+        </div>
+        <div id="map" style="height: 400px;"></div>
         <input type="text" id="countryInput" placeholder="Enter your answer here...">
         <button id="checkAnswer">Check</button>
         <link rel="stylesheet" href="styles1.css">

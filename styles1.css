@@ -69,3 +69,23 @@ button.correct, button.wrong {
     font-weight: bold;
     height: 20px;
 }
+
+#quiz-container select {
+    padding: 10px;
+    margin-top: 10px;
+    width: 100%;
+    font-size: 16px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    appearance: none; /* Entfernt den nativen Dropdown-Pfeil */
+    background-color: #fff;
+    cursor: pointer;
+}
+
+#quiz-container select:hover {
+    border-color: #adb5bd;
+}
+
+#stats {
+    margin-top: 10px;
+}
