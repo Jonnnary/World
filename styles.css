@@ -71,3 +71,18 @@ h1 {
     margin-top: 20px; /* Einheitlicher Abstand zum oberen Element */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Schatten für Tiefe */
 }
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
