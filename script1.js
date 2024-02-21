@@ -94,7 +94,7 @@ function checkUserAnswer(countryName) {
 
     // Vorbereiten auf das nächste Land
     document.getElementById('countryInput').value = ''; // Eingabefeld leeren
-    setTimeout(() => highlightRandomCountry(geoJsonLayer.toGeoJSON()), 1000);
+    setTimeout(() => highlightRandomCountry(geoJsonLayer.toGeoJSON()), 500);
 }
 
 // Event-Listener für die Regionsauswahl

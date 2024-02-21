@@ -89,3 +89,40 @@ button.correct, button.wrong {
 #stats {
     margin-top: 10px;
 }
+
+.info-icon-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.info-icon-container .fas {
+    color: #007bff;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 220px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 10px;
+    
+    /* Positionierung */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -110px;
+    
+    /* Fading-Effekte */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.info-icon-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
