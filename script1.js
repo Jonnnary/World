@@ -12,7 +12,7 @@ let totalCountries = 0;
 // Initialisierung der Karte und des Mousemove-Listeners
 function initMap() {
     map = L.map('map').setView([51.505, -0.09], 2);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 

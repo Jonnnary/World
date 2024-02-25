@@ -6,12 +6,11 @@ const counterElement = document.getElementById('counter');
 
 document.addEventListener('DOMContentLoaded', async function() {
     map = L.map('world-map', {
-        maxZoom: 2, // Setzt die maximale Zoomstufe, bei der Ländernamen nicht sichtbar sind
-        minZoom: 0, // Setzt die minimale Zoomstufe
+       
         zoomControl: true // Zeigt Zoom-Kontrollen an
     }).setView([20, 0], 2);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',  {}).addTo(map);
 
     // Optional: Deaktiviere die Möglichkeit zu zoomen, falls erforderlich
 
