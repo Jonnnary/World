@@ -2,14 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Country Guessing Quiz</title>
+    <title>Country Guessing Game</title>
     <link rel="stylesheet" href="styles1.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0"></script>
 </head>
 <body>
     <div id="quiz-container">
         <h1>Guess the Country</h1>
+        <div id="stats">
+            Guessed Countries: <span id="guessedCount">0/0</span>
+        </div>
         <select id="regionSelect">
             <option value="all">All</option>
             <option value="north_america">North America</option>
@@ -20,23 +23,11 @@
             <option value="oceania">Oceania</option>
             <option value="other">Other</option>
         </select>
-        
-        <div class="info-icon-container">
-            <i class="fas fa-info-circle" aria-describedby="infoTooltip"></i>
-            <span class="tooltip-text" id="infoTooltip">Choose a region from the dropdown to start the quiz. Each region has its own set of countries.</span>
-
-        </div>
-
-        <div id="stats">
-            Erratene Länder: <span id="guessedCount">0</span> / <span id="totalCount">0</span>
-        </div>
-
-
         <div id="map" style="height: 400px;"></div>
-        <input type="text" id="countryInput" placeholder="Enter your answer here...">
-        <button id="checkAnswer">Check</button>
-        <link rel="stylesheet" href="styles1.css">
+        <div id="countryLabel" class="tooltip">Tooltip Content</div>
+
     </div>
+    
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="script1.js"></script>
 </body>

@@ -33,44 +33,19 @@ body, html {
     overflow: hidden;
 }
 
-#controls, #feedback {
-    margin-top: 20px;
+#countryLabel {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ddd;
+    padding: 4px 8px;
+    border-radius: 4px;
+    pointer-events: none; /* Verhindert, dass der Tooltip selbst zum Ziel von Mausereignissen wird */
+    visibility: hidden; /* Standardmäßig versteckt, wird durch JavaScript sichtbar gemacht */
+    z-index: 1000; /* Stellen Sie sicher, dass der Tooltip über anderen Elementen liegt */
 }
 
-input[type="text"], button {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    width: 100%; /* Passt die Breite an den Elterncontainer an */
-}
 
-input[type="text"] {
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-}
-
-button {
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-button.correct, button.wrong {
-    transition: background-color 0.5s ease; /* Glättet den Übergang */
-}
-
-#feedback {
-    font-weight: bold;
-    height: 20px;
-}
-
-#quiz-container select {
+#regionSelect {
     padding: 10px;
     margin-top: 10px;
     width: 100%;
@@ -82,47 +57,14 @@ button.correct, button.wrong {
     cursor: pointer;
 }
 
-#quiz-container select:hover {
+#regionSelect:hover {
     border-color: #adb5bd;
 }
 
-#stats {
-    margin-top: 10px;
-}
-
-.info-icon-container {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-}
-
-.info-icon-container .fas {
-    color: #007bff;
-}
-
-.tooltip-text {
-    visibility: hidden;
-    width: 220px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 10px;
-    
-    /* Positionierung */
+.tooltip {
     position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -110px;
-    
-    /* Fading-Effekte */
-    opacity: 0;
-    transition: opacity 0.3s;
+    visibility: hidden; /* Standardmäßig versteckt, wird durch JS sichtbar gemacht */
+    /* Weitere Stile hinzufügen, um das Aussehen des Tooltips zu gestalten */
 }
 
-.info-icon-container:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-}
 

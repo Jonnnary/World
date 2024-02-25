@@ -1,121 +1,131 @@
-// Globale Variablen
-let map, geoJsonLayer;
-let currentCountry;
-let highlightedLayer;
-let guessedCountries = new Set(); // Set für bereits erratene Länder
-let wrongGuessedCountries = new Set(); // Set für falsch erratene Länder
+document.addEventListener('DOMContentLoaded', function() {
+    initMap();
+    document.getElementById('regionSelect').addEventListener('change', function(e) {
+        loadGeoJsonForRegion(e.target.value);
+    });
+});
 
-// Initialisieren der Karte
+let map, currentCountry, geoJsonLayer;
+let guessedCountries = 0;
+let totalCountries = 0;
+
+// Initialisierung der Karte und des Mousemove-Listeners
 function initMap() {
     map = L.map('map').setView([51.505, -0.09], 2);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
-        maxZoom: 18,
-        attribution: '© OpenStreetMap contributors, © CARTO'
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
     }).addTo(map);
-}
 
-function loadGeoJsonForRegion(region) {
-    // Ersetzen Sie 'path/to/geojson/' mit dem tatsächlichen Pfad zu Ihren GeoJSON-Dateien
-    const geoJsonPath = `${region}.geojson`;
-
-    fetch(geoJsonPath)
-        .then(response => response.json())
-        .then(data => {
-            if (geoJsonLayer) {
-                map.removeLayer(geoJsonLayer);
-            }
-            geoJsonLayer = L.geoJSON(data, {
-                style: function () {
-                    return { weight: 1, color: '#666', fillOpacity: 0.5 };
-                },
-                onEachFeature: function (feature, layer) {
-                    layer.on('click', function () {
-                        checkUserAnswer(feature.properties.name);
-                    });
-                }
-            }).addTo(map);
-            highlightRandomCountry(data);
-            // Aktualisieren Sie die Gesamtzahl der Länder und zurücksetzen des Counters
-            document.getElementById('totalCount').textContent = data.features.length;
-            document.getElementById('guessedCount').textContent = 0;
-            guessedCountries.clear();
-            wrongGuessedCountries.clear();
-        })
-        .catch(error => console.error('Fehler beim Laden der GeoJSON-Daten:', error));
-}
-
-// Funktion, um ein zufälliges Land aus der GeoJSON-Daten hervorzuheben
-function highlightRandomCountry(geojsonData) {
-    const countries = geojsonData.features.filter(feature =>
-        !guessedCountries.has(feature.properties.name) &&
-        !wrongGuessedCountries.has(feature.properties.name)
-    );
-
-    if (countries.length === 0) {
-        alert("Alle Länder wurden erraten oder falsch geraten!");
-        return;
-    }
-
-    const randomIndex = Math.floor(Math.random() * countries.length);
-    currentCountry = countries[randomIndex];
-    geoJsonLayer.eachLayer(function (layer) {
-        if (layer.feature.properties.name === currentCountry.properties.name) {
-            highlightedLayer = layer;
-            layer.setStyle({
-                fillColor: 'blue',
-                fillOpacity: 0.75,
-                weight: 2,
-                color: 'blue'
-            });
-
-            // Anpassen des Zoom-Verhaltens mit maxZoom und padding Optionen
-            map.fitBounds(layer.getBounds(), {
-                padding: [50, 50], // Fügt einen Abstand von 50px um die Grenzen hinzu
-                maxZoom: 6 // Verhindert, dass stärker als Zoomstufe 6 hineingezoomt wird
-            });
+    // Mousemove-Event-Listener, um das Tooltip mit der Maus zu bewegen
+    map.on('mousemove', function(e) {
+        var tooltip = document.getElementById('countryLabel');
+        if (tooltip.style.visibility === 'visible') {
+            tooltip.style.left = e.originalEvent.pageX + 10 + 'px';
+            tooltip.style.top = e.originalEvent.pageY + 10 + 'px';
         }
     });
 }
 
-
-// Funktion, die überprüft, ob die Benutzereingabe mit dem aktuellen Land übereinstimmt
-function checkUserAnswer(countryName) {
-    const userInput = document.getElementById('countryInput').value.toLowerCase().trim();
-    if (userInput === countryName.toLowerCase()) {
-        guessedCountries.add(countryName); // Korrektes Land hinzufügen
-        highlightedLayer.setStyle({ fillColor: 'green', color: 'green' });
-    } else {
-        wrongGuessedCountries.add(countryName); // Falsches Land hinzufügen
-        highlightedLayer.setStyle({ fillColor: 'red', color: 'red' });
+function loadGeoJsonForRegion(region) {
+    if (region === 'all') {
+        alert('Bitte wählen Sie eine spezifische Region.');
+        return;
     }
-
-    // Counter für erratene Länder aktualisieren
-    document.getElementById('guessedCount').textContent = guessedCountries.size;
-
-    // Vorbereiten auf das nächste Land
-    document.getElementById('countryInput').value = ''; // Eingabefeld leeren
-    setTimeout(() => highlightRandomCountry(geoJsonLayer.toGeoJSON()), 500);
+    const geoJsonPath = `${region}.geojson`;
+    if (geoJsonLayer) {
+        map.removeLayer(geoJsonLayer);
+    }
+    fetch(geoJsonPath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Netzwerkantwort war nicht ok.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            totalCountries = data.features.length;
+            updateCounter();
+            geoJsonLayer = L.geoJSON(data, {
+                onEachFeature: onEachFeature,
+                style: {
+                    fillColor: 'blue',
+                    weight: 2,
+                    opacity: 1,
+                    color: 'white',
+                    fillOpacity: 0.7
+                }
+            }).addTo(map);
+            map.fitBounds(geoJsonLayer.getBounds());
+            selectRandomCountry(data.features);
+        })
+        .catch(error => {
+            console.error('Fehler beim Laden der GeoJSON-Daten:', error);
+            alert('Fehler beim Laden der GeoJSON-Daten. Sind die Dateinamen korrekt?');
+        });
 }
 
-// Event-Listener für die Regionsauswahl
-document.getElementById('regionSelect').addEventListener('change', function(e) {
-    guessedCountries.clear(); // Zurücksetzen der erratenen Länder für die neue Region
-    wrongGuessedCountries.clear(); // Zurücksetzen der falsch erratenen Länder für die neue Region
-    loadGeoJsonForRegion(e.target.value);
-});
-
-// Event-Listener für den "Check"-Button
-document.getElementById('checkAnswer').addEventListener('click', function() {
-    checkUserAnswer(currentCountry.properties.name);
-});
-
-// Event-Listener für das Drücken der Enter-Taste im Eingabefeld
-document.getElementById('countryInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        e.preventDefault(); // Verhindern, dass das Formular abgeschickt wird
-        checkUserAnswer(currentCountry.properties.name);
+function selectRandomCountry(features) {
+    if (features.length === 0) {
+        alert('Keine Länder in dieser Region gefunden.');
+        return;
     }
-});
+    const index = Math.floor(Math.random() * features.length);
+    currentCountry = features[index];
+    updateTooltip(currentCountry.properties.name);
+}
 
-// Die initMap-Funktion beim Laden der Seite aufrufen
-window.onload = initMap;
+function onEachFeature(feature, layer) {
+    layer.on({
+        click: function(e) {
+            guessCountry(feature, layer);
+        }
+    });
+}
+
+function guessCountry(feature, layer) {
+    if (currentCountry && feature.properties.name === currentCountry.properties.name) {
+        layer.setStyle({ fillColor: 'green', color: 'green' });
+        guessedCountries++;
+        updateTooltip('Correct! ' + feature.properties.name);
+    } else {
+        layer.setStyle({ fillColor: 'red', color: 'red' });
+        updateTooltip('Incorrect. Try again.');
+    }
+    updateCounter();
+    // Warte einen Moment, dann wähle ein neues Land
+    setTimeout(() => selectRandomCountry(geoJsonLayer.toGeoJSON().features), 600);
+}
+
+function updateCounter() {
+    document.getElementById('guessedCount').textContent = `${guessedCountries}/${totalCountries}`;
+}
+
+function updateTooltip(countryName) {
+    // Verwenden Sie die getCountryCode Funktion, um den Ländercode zu erhalten
+    getCountryCode(countryName).then(countryCode => {
+      // Pfad zum Flaggenbild basierend auf dem Ländercode
+      const flagImageUrl = `https://flagcdn.com/16x12/${countryCode.toLowerCase()}.png`;
+  
+      // Tooltip-Inhalt mit Flagge und Landesname
+      const tooltip = document.getElementById('countryLabel');
+      tooltip.innerHTML = `<img src="${flagImageUrl}" alt="Flag"> ${countryName}`;
+      tooltip.style.visibility = 'visible';
+    }).catch(error => {
+      console.error('Error fetching country code:', error);
+    });
+  }
+  
+  // getCountryCode muss nun eine Promise zurückgeben
+  function getCountryCode(countryName) {
+    const apiUrl = `https://restcountries.com/v3.1/name/${countryName}?fullText=true`;
+    return fetch(apiUrl)
+      .then(response => {
+        if (!response.ok) throw new Error(`Network response was not ok (${response.status})`);
+        return response.json();
+      })
+      .then(data => {
+        // Achten Sie darauf, dass Sie die richtige Antwortstruktur erhalten
+        const countryCode = data[0].cca2;
+        return countryCode; // Rückgabe des Ländercodes
+      });
+  }
